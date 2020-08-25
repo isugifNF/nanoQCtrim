@@ -43,6 +43,9 @@ process runNanoPlot {
 
   publishDir "${params.outdir}/nanoplot/png", mode: 'copy', pattern: '*/*.png'
   publishDir "${params.outdir}/nanoplot/pdf", mode: 'copy', pattern: '*/*.pdf'
+  publishDir "${params.outdir}/nanoplot/pdf", mode: 'copy', pattern: '*/*.log'
+  publishDir "${params.outdir}/nanoplot/pdf", mode: 'copy', pattern: '*/*.md'
+
 
   input:
   set val(label), file(fastq) from fastq_reads_qc
@@ -51,14 +54,88 @@ process runNanoPlot {
   output:
   file("*/*.png") into nanoplot_png
   file("*/*.pdf") into nanoplot_pdf
-
+  file("*/*.log") into nanoplot_log
+  file("*/*.md") into nanoplot_md
 
   script:
 
   """
   NanoPlot -t ${params.threads} --huge --verbose --store -o ${label} -p ${label}_  -f png --loglength --dpi 300 --plots {'kde','hex','dot'} --title ${label}" Nanopore Sequence" --N50 --fastq_rich ${fastq}
   NanoPlot -t ${params.threads} --huge --verbose --store -o ${label} -p ${label}_ -f pdf --loglength --plots {'kde','hex','dot'} --title ${label}" Nanopore Sequence" --N50 --pickle ${label}/${label}_NanoPlot-data.pickle
+
+  ## create markdown
+  echo "# ${label} NanoPlot summary of raw data" > ${label}.md
+  perl -pe 's/   +/ /g' $${label}_NanoStats.txt | perl -pe 's/: /:\t/g' | md >> ${label}_NanoStats.md
+
+  cat <<MDFile >> ${label}_NanoStats.md
+
+  ## Histogram of Number of Reads vs Read Length
+
+  ![${label}_HistogramReadlength](nanoplots/${label}/${label}_HistogramReadlength.png)
+  ![${label}_LogTransformed_HistogramReadlength](nanoplots/${label}/${label}_LogTransformed_HistogramReadlength.png)
+
+  ## Histogram of Number of bases by read length
+  ![${label}_Weighted_HistogramReadlength](nanoplots/${label}/${label}_Weighted_HistogramReadlength.png)
+  ![${label}_Weighted_LogTransformed_HistogramReadlength](nanoplots/${label}/${label}_Weighted_LogTransformed_HistogramReadlength.png)
+
+
+  ## Scatterplots of Average Quality vs Read Length
+
+  These data are plotted as a dotplot, hexplot and kdeplot.  The first plot is raw read length.  The second plot is log normalized read length.
+
+  ### Dotplot Average Quality vs Read Length
+  ![${label}_LengthvsQualityScatterPlot_dot](nanoplots/${label}/${label}_LengthvsQualityScatterPlot_dot.png)
+  ![${label}_LengthvsQualityScatterPlot_loglength_dot](nanoplots/${label}/${label}_LengthvsQualityScatterPlot_loglength_dot.png)
+
+  ### Hexplot Average Quality vs Read Length
+
+  ![${label}_LengthvsQualityScatterPlot_hex](nanoplots/${label}/${label}_LengthvsQualityScatterPlot_hex.png)
+  ![${label}_LengthvsQualityScatterPlot_loglength_hex](nanoplots/${label}/${label}_LengthvsQualityScatterPlot_loglength_hex.png)
+
+  ### KDEplot Average Quality vs Read Length
+
+  ![${label}_LengthvsQualityScatterPlot_kde](nanoplots/${label}/${label}_LengthvsQualityScatterPlot_kde.png)
+  ![${label}_LengthvsQualityScatterPlot_loglength_kde](nanoplots/${label}/${label}_LengthvsQualityScatterPlot_loglength_kde.png)
+
+  ## DotPlot of Yield by Read Length
+
+  ![${label}_Yield_By_Length](nanoplots/${label}/${label}_Yield_By_Length.png)
+
+  ## Active Pores over Time
+
+  ![${label}_ActivePores_Over_Time](nanoplots/${label}/${label}_ActivePores_Over_Time.png)
+
+  ## Reads per channel
+
+  ![${label}_ActivityMap_ReadsPerChannel](nanoplots/${label}/${label}_ActivityMap_ReadsPerChannel.png)
+
+  ## Cummulative Yield Plot in Gigabases
+
+  ![${label}_CumulativeYieldPlot_Gigabases](nanoplots/${label}/${label}_CumulativeYieldPlot_Gigabases.png)
+
+  ## CumulativeYieldPlot in number of reads
+
+  ![${label}_CumulativeYieldPlot_NumberOfReads](nanoplots/${label}/${label}_CumulativeYieldPlot_NumberOfRe
+
+  ## Number of Reads over time
+
+  ![${label}_NumberOfReads_Over_Time](nanoplots/${label}/${label}_NumberOfReads_Over_Time.png)
+
+  ## Time vs Read Length Violin Plot
+
+  ![${label}_TimeLengthViolinPlot](nanoplots/${label}/${label}_TimeLengthViolinPlot.png)
+
+  ## Time vs log(Read Length) Violin Plot
+
+  ![${label}_TimeLogLengthViolinPlot](nanoplots/${label}/${label}_TimeLogLengthViolinPlot.png)
+
+  ## Time vs Read Quality Violin Plot
+
+  ![${label}_TimeQualityViolinPlot](nanoplots/${label}/${label}_TimeQualityViolinPlot.png)
+
+  MDFile
   """
+
 }
 
 
