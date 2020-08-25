@@ -37,11 +37,12 @@ fastq_reads_qc = Channel
                    .map { file -> tuple(file.simpleName, file) }
 
 
-process inputScript {
+process runNanoPlot {
 
   container = "$nanoplot_container"
 
-  publishDir "${params.outdir}/nanoplot/", mode: 'copy', pattern: '*.txt'
+  publishDir "${params.outdir}/nanoplot/png", mode: 'copy', pattern: '*.png'
+  publishDir "${params.outdir}/nanoplot/pdf", mode: 'co py', pattern: '*.pdf'
 
   input:
   set val(label), file(fastq) from fastq_reads_qc
@@ -49,7 +50,7 @@ process inputScript {
 
   output:
   println "process finished for inFILE"
-  //path "*.txt"
+
 
   script:
 
