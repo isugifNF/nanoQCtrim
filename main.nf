@@ -49,7 +49,8 @@ process runNanoPlot {
 
 
   output:
-  println "process finished for inFILE"
+  file "*.png" into nanoplot_png
+  file "*.pdf" into nanoplot_pdf
 
 
   script:
