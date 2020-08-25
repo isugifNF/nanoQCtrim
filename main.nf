@@ -92,6 +92,17 @@ process runDownPore {
   file("*_adaptersRemoved.fastq") into trimmed_reads
 
   """
+
+  ## Download DownPore
+
+  wget https://github.com/jteutenberg/downpore/releases/download/0.3.3/downpore.gz
+  gunzip downpore.gz
+  chmod 755 downpore
+
+  ## add to path
+
+  export PATH=`pwd`:$PATH
+
   ## Grab the adapter files
 
   wget https://github.com/jteutenberg/downpore/raw/master/data/adapters_front.fasta
