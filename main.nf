@@ -82,7 +82,7 @@ process inputScript {
         ${c_white}  _|_  ___) |__| \\_/  _|_  |    ${c_red  }    ${c_yellow}//${c_red  } \\        ${c_reset}
         ${c_white}                                ${c_red   }  ${c_yellow}//---${c_red  }--\\\\       ${c_reset}
         ${c_white}                                ${c_red   }${c_yellow}//------${c_red  }---\\\\       ${c_reset}
-        ${c_cyan}  isugifNF/blast  v${workflow.manifest.version}       ${c_reset}
+        ${c_cyan}  isugifNF/nanoQCtrim  v${workflow.manifest.version}       ${c_reset}
         -${c_dim}--------------------------------------------------${c_reset}-
         """.stripIndent()
     }
