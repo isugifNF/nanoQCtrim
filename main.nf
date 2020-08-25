@@ -41,8 +41,8 @@ process runNanoPlot {
 
   container = "$nanoplot_container"
 
-  publishDir "${params.outdir}/nanoplot/png", mode: 'copy', pattern: '*.png'
-  publishDir "${params.outdir}/nanoplot/pdf", mode: 'copy', pattern: '*.pdf'
+  publishDir "${params.outdir}/nanoplot/png", mode: 'copy', pattern: '*/*.png'
+  publishDir "${params.outdir}/nanoplot/pdf", mode: 'copy', pattern: '*/*.pdf'
 
   input:
   set val(label), file(fastq) from fastq_reads_qc
