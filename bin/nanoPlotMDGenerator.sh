@@ -43,7 +43,7 @@ perl -pe 's/   +/ /g' ${1}_NanoStats.txt | perl -pe 's/: /:\t/g' | md >> $1.md
 # useful one liner to create the links below
 #for plot in `ls *png`; do echo '!'"[${plot%.*}](nanoplots/\$1/$plot)"; done
 
-cat <<MDFile >> $1.md
+cat <<MDFile >> $1_NanoStats.md
 
 ## Histogram of Number of Reads vs Read Length
 
