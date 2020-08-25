@@ -5,7 +5,7 @@
  *************************************/
 
 nanoplot_container = 'quay.io/biocontainers/nanoplot:1.32.0--py_0'
-
+downpore_container = 'quay.io/biocontainers/downpore:0.3.3--h375a9b1_0'
 
  def helpMessage() {
      log.info isuGIFHeader()
@@ -36,6 +36,9 @@ fastq_reads_qc = Channel
                    .fromPath(params.fastqs)
                    .map { file -> tuple(file.simpleName, file) }
 
+fastq_reads_trim = Channel
+                   .fromPath(params.fastqs)
+                   .map { file -> tuple(file.simpleName, file) }
 
 process runNanoPlot {
 
@@ -70,6 +73,37 @@ process runNanoPlot {
 
 }
 
+
+
+process runDownPore {
+
+
+  container = "$downpore_container"
+
+
+  publishDir "${params.outdir}/downpore", mode: 'copy', pattern: '*/*.md'
+
+
+  input:
+  set val(label), file(fastq) from fastq_reads_trim
+
+
+  output:
+  file("*_adaptersRemoved.fastq") into trimmed_reads
+
+  """
+  ## Grab the adapter files
+
+  wget https://github.com/jteutenberg/downpore/raw/master/data/adapters_front.fasta
+  wget https://github.com/jteutenberg/downpore/raw/master/data/adapters_back.fasta
+
+  ## Run Downpore
+
+  downpore trim -i ${fastq} -f adapters_front.fasta -b adapters_back.fasta --himem true --num_workers ${param.threads} > ${label}_adaptersRemoved.fastq
+  """
+
+
+}
 
 
 
