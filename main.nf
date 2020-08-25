@@ -64,7 +64,7 @@ process runNanoPlot {
   NanoPlot -t ${params.threads} --huge --verbose --store -o ${label} -p ${label}_ -f pdf --loglength --plots {'kde','hex','dot'} --title ${label}" Nanopore Sequence" --N50 --pickle ${label}/${label}_NanoPlot-data.pickle
 
   ## Run Markdown generator
-  nanoPlotMDGenerator.sh ${label}
+  nanoPlotMdGenerator.sh ${label}
 
   """
 

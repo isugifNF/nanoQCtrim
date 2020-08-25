@@ -32,17 +32,6 @@ fi
 ## Organize Folder
   cd $1
 
-### Remove unwanted files
-rm *Dynamic_Histogram_Read_length.html
-
-### create folders for png and pdf and organize
-
-mkdir pdf log
-mv *pdf pdf
-mv *log log
-
-mkdir -p ../nanoplots/$1
-mv *png ../nanoplots/$1
 
 ### Create markdown file
 
@@ -123,6 +112,3 @@ These data are plotted as a dotplot, hexplot and kdeplot.  The first plot is raw
 MDFile
 
 cd -
-
-# === list generated markdown report
-ls -hltr $1/$1.md
