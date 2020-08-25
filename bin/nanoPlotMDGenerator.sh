@@ -3,8 +3,6 @@
 # Date:
 # Desc: Generate the read length and quality markdown report
 
-set -e
-set -u
 
 # === Usage Statement
 function usage() {
