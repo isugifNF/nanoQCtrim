@@ -49,8 +49,8 @@ process runNanoPlot {
 
 
   output:
-  file(label/"*.png") into nanoplot_png
-  file(label/"*.pdf") into nanoplot_pdf
+  file("*/*.png") into nanoplot_png
+  file("*/*.pdf") into nanoplot_pdf
 
 
   script:
