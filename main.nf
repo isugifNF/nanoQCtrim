@@ -81,7 +81,7 @@ process runDownPore {
   container = "$downpore_container"
 
 
-  publishDir "${params.outdir}/downpore", mode: 'copy', pattern: '*/*.md'
+  publishDir "${params.outdir}/downpore", mode: 'copy', pattern: '*_adaptersRemoved.fastq'
 
 
   input:
