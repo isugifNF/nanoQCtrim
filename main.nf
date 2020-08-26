@@ -49,10 +49,10 @@ process runNanoPlot {
 
   container = "$nanoplot_container"
 
-  publishDir "${params.outdir}/nanoplot/", mode: 'copy', pattern: '*/*.png'
+  publishDir "${params.outdir}/nanoplots/", mode: 'copy', pattern: '*/*.png'
   publishDir "${params.outdir}/pdf", mode: 'copy', pattern: '*/*.pdf'
-  publishDir "${params.outdir}/nanoplot/log", mode: 'copy', pattern: '*/*.log'
-  publishDir "${params.outdir}/nanoplot/", mode: 'copy', pattern: '*/*.md'
+  publishDir "${params.outdir}/nanoplots/log", mode: 'copy', pattern: '*/*.log'
+  publishDir "${params.outdir}/nanoplots/", mode: 'copy', pattern: '*/*.md'
 
 
   input:
