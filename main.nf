@@ -32,15 +32,18 @@ downpore_container = 'quay.io/biocontainers/downpore:0.3.3--h375a9b1_0'
      }
 
 
-fastq_reads_qc = Channel
-                   .fromPath(params.fastqs)
-                   .map { file -> tuple(file.simpleName, file) }
+//fastq_reads_qc = Channel
+//                   .fromPath(params.fastqs)
+//                   .map { file -> tuple(file.simpleName, file) }
 
-fastq_reads_trim = Channel
-                   .fromPath(params.fastqs)
-                   .map { file -> tuple(file.simpleName, file) }
+//fastq_reads_trim = Channel
+//                   .fromPath(params.fastqs)
+//                   .map { file -> tuple(file.simpleName, file) }
 
-
+Channel
+  .fromPath(params.fastqs)
+  .map { file -> tuple(file.simpleName, file) }
+  .into { fastq_reads_qc; fastq_reads_trim }
 
 process runNanoPlot {
 
@@ -85,7 +88,7 @@ publishDir "${params.outdir}", mode: 'copy', pattern: 'downpore'
 output:
 //file("downpore") into downpore_ch
 file("adapters_front.fasta") into adapters_front_ch
-file("adapters_back.fasta") into adapters_back_ch  
+file("adapters_back.fasta") into adapters_back_ch
 
 script:
 
@@ -119,11 +122,11 @@ process runDownPore {
 
   output:
   file("*_adaptersRemoved.fastq") into trimmed_reads
- 
 
-  script: 
+
+  script:
   """
-   
+
 
   downpore trim -i ${fastq} -f ${front} -b ${back}  --num_workers ${params.threads} > ${label}_adaptersRemoved.fastq
   """
