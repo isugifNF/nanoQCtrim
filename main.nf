@@ -40,6 +40,8 @@ fastq_reads_trim = Channel
                    .fromPath(params.fastqs)
                    .map { file -> tuple(file.simpleName, file) }
 
+
+
 process runNanoPlot {
 
   container = "$nanoplot_container"
@@ -74,44 +76,56 @@ process runNanoPlot {
 }
 
 
+process getAdapters {
+
+
+publishDir "${params.outdir}/adapters", mode: 'copy', pattern: 'adapters_*.fasta'
+publishDir "${params.outdir}", mode: 'copy', pattern: 'downpore'
+
+output:
+//file("downpore") into downpore_ch
+file("adapters_front.fasta") into adapters_front_ch
+file("adapters_back.fasta") into adapters_back_ch  
+
+script:
+
+"""
+ # Download downpore
+ # wget https://github.com/jteutenberg/downpore/releases/download/0.3.3/downpore.gz
+ # gunzip downpore.gz
+ # chmod 755 downpore
+ # export PATH=`pwd`:$PATH
+
+ # Download Adapters
+  wget https://github.com/jteutenberg/downpore/raw/master/data/adapters_front.fasta
+  wget https://github.com/jteutenberg/downpore/raw/master/data/adapters_back.fasta
+"""
+
+}
+
 
 process runDownPore {
-
 
   container = "$downpore_container"
 
 
-  publishDir "${params.outdir}/downpore", mode: 'copy', pattern: '*_adaptersRemoved.fastq'
+  publishDir "${params.outdir}/trimmedReads", mode: 'copy', pattern: '*_adaptersRemoved.fastq'
 
 
   input:
   set val(label), file(fastq) from fastq_reads_trim
-
+  file front from adapters_front_ch.val
+  file back from adapters_back_ch.val
 
   output:
   file("*_adaptersRemoved.fastq") into trimmed_reads
+ 
 
-  script:
+  script: 
   """
+   
 
-  ## Download DownPore
-
-  wget https://github.com/jteutenberg/downpore/releases/download/0.3.3/downpore.gz
-  gunzip downpore.gz
-  chmod 755 downpore
-
-  ## add to path
-
-  export PATH=`pwd`:$PATH
-
-  ## Grab the adapter files
-
-  wget https://github.com/jteutenberg/downpore/raw/master/data/adapters_front.fasta
-  wget https://github.com/jteutenberg/downpore/raw/master/data/adapters_back.fasta
-
-  ## Run Downpore
-
-  downpore trim -i ${fastq} -f adapters_front.fasta -b adapters_back.fasta --num_workers ${params.threads} > ${label}_adaptersRemoved.fastq
+  downpore trim -i ${fastq} -f ${front} -b ${back}  --num_workers ${params.threads} > ${label}_adaptersRemoved.fastq
   """
 
 
