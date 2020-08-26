@@ -91,6 +91,7 @@ process runDownPore {
   output:
   file("*_adaptersRemoved.fastq") into trimmed_reads
 
+  script:
   """
 
   ## Download DownPore
@@ -110,7 +111,7 @@ process runDownPore {
 
   ## Run Downpore
 
-  downpore trim -i ${fastq} -f adapters_front.fasta -b adapters_back.fasta --himem true --num_workers ${params.threads} > ${label}_adaptersRemoved.fastq
+  downpore trim -i ${fastq} -f adapters_front.fasta -b adapters_back.fasta --num_workers ${params.threads} > ${label}_adaptersRemoved.fastq
   """
 
 
