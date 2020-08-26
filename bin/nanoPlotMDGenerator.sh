@@ -38,7 +38,7 @@ echo "# $1 NanoPlot summary of raw data"
 echo "# $1 NanoPlot summary of raw data" > $1.md
 
 #perl -pe 's/   +/ /g' ${1}_NanoStats.txt | perl -pe 's/: /:\t/g' | md | perl -pe 's/\|--\|/\|--\|--\|/g' >> $1.md
-perl -pe 's/   +/ /g' ${1}_NanoStats.txt | perl -pe 's/: /:\t/g' | md >> $1.md
+perl -pe 's/   +/ /g' ${1}_NanoStats.txt | perl -pe 's/: /:\t/g' | md > $1_NanoStats.md
 
 # useful one liner to create the links below
 #for plot in `ls *png`; do echo '!'"[${plot%.*}](nanoplots/\$1/$plot)"; done
