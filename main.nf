@@ -80,7 +80,7 @@ process runNanoPlot {
 
 
 process getAdapters {
-
+// a separate process was required to run wget as wget would not run successfully in the downpore container
 
 publishDir "${params.outdir}/adapters", mode: 'copy', pattern: 'adapters_*.fasta'
 publishDir "${params.outdir}", mode: 'copy', pattern: 'downpore'
