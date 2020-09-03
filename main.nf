@@ -21,6 +21,7 @@ downpore_container = 'quay.io/biocontainers/downpore:0.3.3--h375a9b1_0'
       Optional arguments:
       --outdir                      Output directory to place final BLAST output
       --threads                      Number of CPUs to use during the NanoPlot job [16]
+      --queueSize                    Maximum number of jobs to be queued [18]
       --help                         This usage statement.
      """
 }
