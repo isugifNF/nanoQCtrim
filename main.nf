@@ -12,7 +12,7 @@ downpore_container = 'quay.io/biocontainers/downpore:0.3.3--h375a9b1_0'
      log.info """
       Usage:
       The typical command for running the pipeline is as follows:
-      nextflow run isugifNF/parallelNF --input 'command to list input files' --script 'command to run on each input file'
+      nextflow run isugifNF/nanoQCtrim --fastqs "/Path/to/rawdata/folder/*.fastq" -profile condo
 
       Mandatory arguments:
 
@@ -22,6 +22,7 @@ downpore_container = 'quay.io/biocontainers/downpore:0.3.3--h375a9b1_0'
       --outdir                      Output directory to place final BLAST output
       --threads                      Number of CPUs to use during the NanoPlot job [16]
       --queueSize                    Maximum number of jobs to be queued [18]
+      --account                      Some HPCs require you supply an account name for tracking usage.  You can supply that here.
       --help                         This usage statement.
      """
 }
