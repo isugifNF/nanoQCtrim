@@ -130,7 +130,7 @@ process runDownPore {
   """
 
 
-  downpore trim -i ${fastq} -f ${front} -b ${back}  --num_workers ${params.threads} > ${label}_adaptersRemoved.fastq
+  downpore trim -v 2 -i ${fastq} -f ${front} -b ${back}  --num_workers ${params.threads} > ${label}_adaptersRemoved.fastq
   """
 
 
