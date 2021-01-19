@@ -55,7 +55,7 @@ process runNanoPlot {
   publishDir "${params.outdir}/pdf", mode: 'copy', pattern: '*/*.pdf'
   publishDir "${params.outdir}/nanoplots/log", mode: 'copy', pattern: '*/*.log'
   publishDir "${params.outdir}/nanoplots/", mode: 'copy', pattern: '*/*.md'
-
+  publishDir "${params.outdir}/nanoplots/", mode: 'copy', pattern: '*/*.txt'
 
   input:
   set val(label), file(fastq) from fastq_reads_qc
@@ -66,6 +66,7 @@ process runNanoPlot {
   file("*/*.pdf") into nanoplot_pdf
   file("*/*.log") into nanoplot_log
   file("*/*.md") into nanoplot_md
+  file("*/*.txt") into nanoplot_md2
 
   script:
 
