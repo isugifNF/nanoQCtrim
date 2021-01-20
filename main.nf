@@ -24,6 +24,7 @@ downpore_container = 'quay.io/biocontainers/downpore:0.3.3--h375a9b1_0'
       --queueSize                    Maximum number of jobs to be queued [18]
       --account                      Some HPCs require you supply an account name for tracking usage.  You can supply that here.
       --help                         This usage statement.
+      --options			     add options to downpore trim
      """
 }
 
@@ -131,7 +132,7 @@ process runDownPore {
   """
 
 
-  downpore trim -v 2 -i ${fastq} -f ${front} -b ${back}  --num_workers ${params.threads} > ${label}_adaptersRemoved.fastq
+  downpore trim -v 2 -i ${fastq} ${params.options} -f ${front} -b ${back}  --num_workers ${params.threads} > ${label}_adaptersRemoved.fastq
   """
 
 
