@@ -38,7 +38,7 @@ echo "# $1 NanoPlot summary of raw data"
 echo "# $1 NanoPlot summary of raw data" > $1_NanoStats.txt.md
 
 #perl -pe 's/   +/ /g' ${1}_NanoStats.txt | perl -pe 's/: /:\t/g' | md | perl -pe 's/\|--\|/\|--\|--\|/g' >> $1.md
-perl -pe 's/   +/ /g' ${1}/${1}_NanoStats.txt | perl -pe 's/: /:\t/g' | md >> $1_NanoStats.txt.md
+perl -pe 's/   +/ /g' ${1}_NanoStats.txt | perl -pe 's/: /:\t/g' | md >> $1_NanoStats.txt.md
 
 # useful one liner to create the links below
 #for plot in `ls *png`; do echo '!'"[${plot%.*}](nanoplots/\$1/$plot)"; done
@@ -91,7 +91,7 @@ These data are plotted as a dotplot, hexplot and kdeplot.  The first plot is raw
 
 ## CumulativeYieldPlot in number of reads
 
-![$1_CumulativeYieldPlot_NumberOfReads](nanoplots/$1/$1_CumulativeYieldPlot_NumberOfRe
+![$1_CumulativeYieldPlot_NumberOfReads](nanoplots/$1/$1_CumulativeYieldPlot_NumberOfReads.png)
 
 ## Number of Reads over time
 
