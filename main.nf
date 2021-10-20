@@ -5,7 +5,8 @@
  *************************************/
 
 nanoplot_container = 'quay.io/biocontainers/nanoplot:1.32.0--py_0'
-downpore_container = 'quay.io/biocontainers/downpore:0.3.3--h375a9b1_0'
+downpore_container = 'quay.io/biocontainers/downpore:0.3.4--he881be0_1'
+//0.3.3--h375a9b1_0'
 
  def helpMessage() {
      log.info isuGIFHeader()
